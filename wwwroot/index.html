@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Metalix</title>
+    <base href="/" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="Metalix.styles.css" rel="stylesheet">
+    <link href="manifest.json" rel="manifest" />
+
+    <!--
+      ╔══════════════════════════════════════════════════════════════════╗
+      ║  DROP-IN REPLACEMENT — paste this entire <body> into Index.html  ║
+      ╚══════════════════════════════════════════════════════════════════╝
+    -->
+    <!-- ① Loader styles — place inside <head> or keep here before </body> -->
+    <style>
+        /* ── Palette (logo-derived) ───────────────────────────────────────
+           --crimson      Deep red fill of the M emblem
+           --crimson-glow Lighter red used for the spinning arc glow
+           --steel        Brushed-silver border of the emblem
+           --steel-dim    Darker steel for track ring
+           --void         Pure black background
+        ──────────────────────────────────────────────────────────────── */
+        :root {
+            --crimson: #C8000A;
+            --crimson-glow: #FF1A26;
+            --steel: #B2B6BE;
+            --steel-dim: #2E2E2E;
+            --void: #0A0A0A;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #app {
+            height: 100%;
+        }
+
+        /* Full-screen overlay */
+        #app-loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--void);
+            z-index: 9999;
+            /* Fade out once Blazor removes / hides this element */
+            transition: opacity 0.45s ease, visibility 0.45s ease;
+        }
+
+            /* Hide helper — add .hidden via JS when app is ready */
+            #app-loader.hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+        /* ── Spinner container ──────────────────────────────────────────── */
+        .loader-ring-wrap {
+            position: relative;
+            width: 168px;
+            height: 168px;
+        }
+
+            /* SVG rings sit inside this wrapper, logo sits on top */
+            .loader-ring-wrap svg.rings {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                overflow: visible;
+            }
+
+        /* Outer track (static, dim) */
+        .ring-track {
+            fill: none;
+            stroke: var(--steel-dim);
+            stroke-width: 4px;
+        }
+
+        /* Outer spinning arc — red with a glowing tip */
+        .ring-arc-outer {
+            fill: none;
+            stroke: url(#arcGradOuter);
+            stroke-width: 4px;
+            stroke-linecap: round;
+            /* 75 % of circumference visible → stroke-dasharray = 0.75 * 2π * r */
+            /* r = 78 → circumference ≈ 490 → 75 % ≈ 367 */
+            stroke-dasharray: 340 490;
+            transform-origin: center;
+            animation: spinCW 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        /* Inner track */
+        .ring-track-inner {
+            fill: none;
+            stroke: var(--steel-dim);
+            stroke-width: 3px;
+        }
+
+        /* Inner spinning arc — steel silver, counter-rotates */
+        .ring-arc-inner {
+            fill: none;
+            stroke: url(#arcGradInner);
+            stroke-width: 3px;
+            stroke-linecap: round;
+            /* r = 58 → circumference ≈ 364 → 55 % ≈ 200 */
+            stroke-dasharray: 180 364;
+            transform-origin: center;
+            animation: spinCCW 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        /* Logo sits in the centre circle */
+        .loader-logo {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .loader-logo img {
+                width: 84px;
+                height: 84px;
+                object-fit: contain;
+                /* Subtle breathing pulse so the logo feels alive */
+                animation: pulse 2.8s ease-in-out infinite;
+                /* Subtle red drop-shadow to tie logo into the spinner glow */
+                filter: drop-shadow(0 0 10px rgba(200, 0, 10, 0.55));
+            }
+
+        /* ── Loading text ─────────────────────────────────────────────── */
+        .loader-label {
+            margin-top: 28px;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--steel);
+            opacity: 0.75;
+            animation: fadeLetters 1.6s ease-in-out infinite alternate;
+        }
+
+        /* ── Keyframes ──────────────────────────────────────────────────── */
+        @keyframes spinCW {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spinCCW {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(0.93);
+                opacity: 0.82;
+            }
+        }
+
+        @keyframes fadeLetters {
+            from {
+                opacity: 0.45;
+            }
+
+            to {
+                opacity: 0.9;
+            }
+        }
+
+        /* Respect user's reduced-motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .ring-arc-outer,
+            .ring-arc-inner,
+            .loader-logo img,
+            .loader-label {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- App shell — Blazor replaces this content once WASM is ready -->
+    <div id="app">
+
+        <!-- ══ Custom loader ══════════════════════════════════════════ -->
+        <div id="app-loader" role="status" aria-label="Loading application">
+
+            <div class="loader-ring-wrap">
+
+                <!-- SVG spinner rings -->
+                <svg class="rings" viewBox="0 0 168 168" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Outer arc: deep red → bright crimson → transparent tail -->
+                        <linearGradient id="arcGradOuter" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="var(--crimson)" stop-opacity="0" />
+                            <stop offset="50%" stop-color="var(--crimson)" stop-opacity="1" />
+                            <stop offset="100%" stop-color="var(--crimson-glow)" stop-opacity="1" />
+                        </linearGradient>
+                        <!-- Inner arc: dim steel → bright steel → transparent tail -->
+                        <linearGradient id="arcGradInner" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="var(--steel)" stop-opacity="0" />
+                            <stop offset="60%" stop-color="var(--steel)" stop-opacity="0.7" />
+                            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.9" />
+                        </linearGradient>
+                        <!-- Glow filter for the outer arc tip -->
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="3.5" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Outer ring: r = 78, cx = cy = 84 -->
+                    <circle class="ring-track" cx="84" cy="84" r="78" />
+                    <circle class="ring-arc-outer" cx="84" cy="84" r="78" filter="url(#glow)" />
+
+                    <!-- Inner ring: r = 58 -->
+                    <circle class="ring-track-inner" cx="84" cy="84" r="58" />
+                    <circle class="ring-arc-inner" cx="84" cy="84" r="58" />
+                </svg>
+
+                <!-- Logo centred inside both rings -->
+                <div class="loader-logo">
+                    <!--
+                      ✏️  Replace the src below with your actual logo path, e.g.
+                          src="images/logo.png"   or   src="_content/MyApp/logo.png"
+                    -->
+                    <img src="Logos/logo_clean.jpeg" alt="Company logo" />
+                </div>
+
+            </div><!-- /.loader-ring-wrap -->
+
+            <p class="loader-label">Loading&hellip;</p>
+
+        </div><!-- /#app-loader -->
+
+    </div><!-- /#app -->
+    <!-- Blazor error UI (unchanged) -->
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <!--
+      ③ Optional: smooth fade-out once Blazor finishes bootstrapping.
+         Blazor clears #app's innerHTML when it mounts the root component,
+         so the loader disappears automatically.  If you want a graceful
+         CSS fade instead of an instant removal, uncomment the lines below
+         and add the .hidden class when your App.razor OnAfterRenderAsync fires
+         via JS interop: await JS.InvokeVoidAsync("hideLoader");
+    -->
+    <script>
+        window.hideLoader = function () {
+            var el = document.getElementById('app-loader');
+            if (el) {
+                el.classList.add('hidden');
+                // Remove from DOM after transition ends to free resources
+                el.addEventListener('transitionend', function () { el.remove(); }, { once: true });
+            }
+        };
+    </script>
+
+</body>
+
+</html>
+

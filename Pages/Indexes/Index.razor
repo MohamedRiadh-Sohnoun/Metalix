@@ -1,0 +1,99 @@
+﻿@page "/"
+
+<PageTitle>Coming Soon</PageTitle>
+
+<div class="cs-root">
+
+    <!-- Ambient background grid (pure CSS, no image) -->
+    <div class="cs-grid" aria-hidden="true"></div>
+
+    <!-- Radial crimson bleed from centre -->
+    <div class="cs-bleed" aria-hidden="true"></div>
+
+    <main class="cs-stage">
+
+        <!-- ── Logo block ───────────────────────────────────────── -->
+        <div class="cs-logo-wrap">
+
+            <!-- Hexagonal halo (signature element) -->
+            <div class="cs-halo" aria-hidden="true">
+                <div class="cs-halo__ring cs-halo__ring--outer"></div>
+                <div class="cs-halo__ring cs-halo__ring--inner"></div>
+            </div>
+
+            <!-- The actual logo image -->
+            <div class="cs-logo">
+                <!--
+                    ✏️  Replace src with your real path, e.g. "images/logo.png"
+                        The image has a black background so it blends seamlessly.
+                -->
+                <img src="Logos/logo_clean.jpeg"
+                     alt="Company logo"
+                     class="cs-logo__img" />
+            </div>
+        </div>
+
+        <!-- ── Identity block ───────────────────────────────────── -->
+        <div class="cs-identity">
+            <!--
+                ✏️  Replace with your real business name.
+                    Split into two spans if you want to accent part of the name:
+                    <span class="cs-name__accent">ACME</span> CORP
+            -->
+            <h1 class="cs-name">
+                <span class="cs-name__accent">Metalix</span>.tn
+            </h1>
+
+            <div class="cs-divider" aria-hidden="true">
+                <span class="cs-divider__line"></span>
+                <span class="cs-divider__diamond"></span>
+                <span class="cs-divider__line"></span>
+            </div>
+
+            <p class="cs-tagline">
+                Coming Soon<span class="cs-tagline__dots">
+                    <span>.</span><span>.</span><span>.</span>
+                </span>
+            </p>
+        </div>
+
+        <!-- ── Contact block ────────────────────────────────────── -->
+        <div class="cs-contact">
+            <span class="cs-contact__label">Contactez nous</span>
+            <a class="cs-contact__phone"
+               href="tel:+21699533066"
+               aria-label="Call us">
+                <!-- Phone icon inline SVG — no external dependency -->
+                <svg class="cs-contact__icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+                             19.79-19.79 0 0 1-8.63-3.07
+                             19.5 19.5 0 0 1-6-6
+                             19.79 19.79 0 0 1-3.07-8.67
+                             A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72
+                             c.127.96.361 1.903.7 2.81
+                             a2 2 0 0 1-.45 2.11L8.09 9.91
+                             a16 16 0 0 0 6 6l1.27-1.27
+                             a2 2 0 0 1 2.11-.45
+                             c.907.339 1.85.573 2.81.7
+                             A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <!--  ✏️  Replace with your real phone number  -->
+                99 533 066
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer hairline -->
+    <footer class="cs-footer" aria-hidden="true">
+        <span class="cs-footer__rule"></span>
+    </footer>
+
+</div>

@@ -1,0 +1,407 @@
+﻿/* ═══════════════════════════════════════════════════════════════════
+   Index.razor.css  —  Blazor CSS isolation (scoped)
+   Palette:
+     --crimson:      #C8000A   red emblem fill
+     --crimson-glow: #FF1A26   bright tip / glow
+     --steel:        #B2B6BE   brushed silver
+     --steel-dim:    #1E1E1E   dark surface
+     --void:         #0A0A0A   background black
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Custom properties (scoped to component root) ──────────────── */
+/* ── Custom properties ──────────────────────────────────────────── */
+.cs-root {
+    --crimson: #C8000A;
+    --crimson-glow: #FF1A26;
+    --steel: #B2B6BE;
+    --steel-muted: rgba(178, 182, 190, 0.35);
+    --steel-dim: #1E1E1E;
+    --void: #0A0A0A;
+    --font-display: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--void);
+    overflow: hidden;
+    font-family: var(--font-body);
+}
+
+/* ── Ambient background grid ────────────────────────────────────── */
+.cs-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--steel-dim) 1px, transparent 1px), linear-gradient(90deg, var(--steel-dim) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* ── Crimson radial bleed ───────────────────────────────────────── */
+.cs-bleed {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 45% at 50% 42%, rgba(200,0,10,0.13) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ── Stage ──────────────────────────────────────────────────────── */
+.cs-stage {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LOGO BLOCK
+   ══════════════════════════════════════════════════════════════════ */
+.cs-logo-wrap {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+}
+
+.cs-halo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-halo__ring {
+    position: absolute;
+    border-radius: 4px;
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+}
+
+.cs-halo__ring--outer {
+    width: 240px;
+    height: 240px;
+    background: conic-gradient( from 0deg, transparent 0deg, var(--crimson) 80deg, var(--crimson-glow) 100deg, transparent 140deg, transparent 360deg );
+    animation: haloSpin 5s linear infinite;
+    opacity: 0.9;
+    filter: blur(0.5px) drop-shadow(0 0 8px var(--crimson));
+}
+
+.cs-halo__ring--inner {
+    width: 196px;
+    height: 196px;
+    background: conic-gradient( from 180deg, transparent 0deg, var(--steel-muted) 60deg, rgba(255,255,255,0.55) 80deg, transparent 110deg, transparent 360deg );
+    animation: haloSpin 3.2s linear infinite reverse;
+    opacity: 0.7;
+}
+
+    /* Cut out the centre so the halos look like rings */
+    .cs-halo__ring--outer::after,
+    .cs-halo__ring--inner::after {
+        content: '';
+        position: absolute;
+        border-radius: 3px;
+        background: var(--void);
+        clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    }
+
+.cs-halo__ring--outer::after {
+    inset: 8px;
+}
+
+.cs-halo__ring--inner::after {
+    inset: 9px;
+}
+
+/* ── Logo image ─────────────────────────────────────────────────── */
+.cs-logo {
+    position: relative;
+    z-index: 2;
+    /* Smaller than the inner halo (196px) so the rings are always visible */
+    width: 128px;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Clip to the same hexagon shape as the halos so corners don't bleed out */
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.cs-logo__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* mix-blend-mode removed — JPEG near-black bg causes a solid rectangle */
+    filter: drop-shadow(0 0 16px rgba(200,0,10,0.4));
+    animation: logoBreathe 4s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   IDENTITY BLOCK
+   ══════════════════════════════════════════════════════════════════ */
+.cs-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+    margin-bottom: 2.75rem;
+}
+
+.cs-name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--steel);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+}
+
+.cs-name__accent {
+    color: var(--crimson-glow);
+}
+
+.cs-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.cs-divider__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--steel-muted), transparent);
+}
+
+.cs-divider__diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--crimson);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px var(--crimson-glow);
+}
+
+.cs-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 3vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--steel);
+    opacity: 0.7;
+    margin: 0;
+}
+
+.cs-tagline__dots {
+    display: inline-flex;
+    gap: 1px;
+}
+
+    .cs-tagline__dots span {
+        animation: dotPop 1.5s ease-in-out infinite;
+        color: var(--crimson-glow);
+        display: inline-block;
+    }
+
+        .cs-tagline__dots span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .cs-tagline__dots span:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .cs-tagline__dots span:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+/* ══════════════════════════════════════════════════════════════════
+   CONTACT BLOCK
+   ══════════════════════════════════════════════════════════════════ */
+.cs-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.cs-contact__label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    color: var(--steel);
+    opacity: 0.4;
+    text-transform: uppercase;
+}
+
+.cs-contact__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--steel);
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(178, 182, 190, 0.15);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+    .cs-contact__phone::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -100%;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--crimson-glow), transparent);
+        transition: left 0.4s ease;
+    }
+
+    .cs-contact__phone:hover {
+        color: #fff;
+        border-color: rgba(200, 0, 10, 0.45);
+    }
+
+        .cs-contact__phone:hover::before {
+            left: 100%;
+        }
+
+    .cs-contact__phone:focus-visible {
+        outline: 2px solid var(--crimson-glow);
+        outline-offset: 4px;
+    }
+
+.cs-contact__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--crimson);
+    flex-shrink: 0;
+    transition: color 0.25s ease;
+}
+
+.cs-contact__phone:hover .cs-contact__icon {
+    color: var(--crimson-glow);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════════ */
+.cs-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 2rem;
+}
+
+.cs-footer__rule {
+    display: block;
+    width: min(320px, 60vw);
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--crimson) 30%, var(--crimson) 70%, transparent);
+    opacity: 0.25;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ══════════════════════════════════════════════════════════════════ */
+@keyframes haloSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes logoBreathe {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 16px rgba(200,0,10,0.4));
+    }
+
+    50% {
+        transform: scale(0.96);
+        filter: drop-shadow(0 0 28px rgba(255,26,38,0.6));
+    }
+}
+
+@keyframes dotPop {
+    0%, 80%, 100% {
+        opacity: 0.25;
+        transform: translateY(0);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .cs-halo__ring--outer,
+    .cs-halo__ring--inner,
+    .cs-logo__img,
+    .cs-tagline__dots span {
+        animation: none;
+    }
+
+    .cs-contact__phone::before {
+        transition: none;
+    }
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .cs-logo-wrap {
+        width: 210px;
+        height: 210px;
+        margin-bottom: 2rem;
+    }
+
+    .cs-halo__ring--outer {
+        width: 194px;
+        height: 194px;
+    }
+
+    .cs-halo__ring--inner {
+        width: 156px;
+        height: 156px;
+    }
+
+    .cs-logo {
+        width: 104px;
+        height: 104px;
+    }
+
+    .cs-identity {
+        gap: 0.9rem;
+        margin-bottom: 2rem;
+    }
+}

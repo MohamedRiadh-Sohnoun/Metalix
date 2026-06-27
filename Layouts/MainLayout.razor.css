@@ -1,0 +1,11 @@
+﻿.page {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+main {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
