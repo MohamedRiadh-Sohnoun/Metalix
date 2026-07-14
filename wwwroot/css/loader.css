@@ -1,0 +1,142 @@
+#app-loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-void);
+    z-index: var(--z-loader);
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+#app-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-ring-wrap {
+    position: relative;
+    width: 168px;
+    height: 168px;
+}
+
+.loader-ring-wrap svg.rings {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.ring-track {
+    fill: none;
+    stroke: var(--color-steel-track);
+    stroke-width: 4px;
+}
+
+.ring-arc-outer {
+    fill: none;
+    stroke: url(#arcGradOuter);
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-dasharray: 340 490;
+    transform-origin: center;
+    animation: loaderSpinCw 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ring-track-inner {
+    fill: none;
+    stroke: var(--color-steel-track);
+    stroke-width: 3px;
+}
+
+.ring-arc-inner {
+    fill: none;
+    stroke: url(#arcGradInner);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-dasharray: 180 364;
+    transform-origin: center;
+    animation: loaderSpinCcw 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.loader-logo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-logo img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    animation: loaderPulse 2.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(200, 0, 10, 0.55));
+}
+
+.loader-label {
+    margin-top: 28px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-steel);
+    opacity: 0.75;
+    animation: loaderFadeLetters 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes loaderSpinCw {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loaderSpinCcw {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes loaderPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(0.93);
+        opacity: 0.82;
+    }
+}
+
+@keyframes loaderFadeLetters {
+    from {
+        opacity: 0.45;
+    }
+
+    to {
+        opacity: 0.9;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ring-arc-outer,
+    .ring-arc-inner,
+    .loader-logo img,
+    .loader-label {
+        animation: none;
+    }
+}

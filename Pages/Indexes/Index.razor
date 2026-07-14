@@ -1,99 +1,127 @@
-﻿@page "/"
+@page "/"
 
-<PageTitle>Coming Soon</PageTitle>
+<PageTitle>Accueil | Metalix</PageTitle>
 
-<div class="cs-root">
+<div class="home-page u-brand-surface">
+    <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-hero__grid" aria-hidden="true"></div>
+        <div class="home-hero__glow" aria-hidden="true"></div>
 
-    <!-- Ambient background grid (pure CSS, no image) -->
-    <div class="cs-grid" aria-hidden="true"></div>
-
-    <!-- Radial crimson bleed from centre -->
-    <div class="cs-bleed" aria-hidden="true"></div>
-
-    <main class="cs-stage">
-
-        <!-- ── Logo block ───────────────────────────────────────── -->
-        <div class="cs-logo-wrap">
-
-            <!-- Hexagonal halo (signature element) -->
-            <div class="cs-halo" aria-hidden="true">
-                <div class="cs-halo__ring cs-halo__ring--outer"></div>
-                <div class="cs-halo__ring cs-halo__ring--inner"></div>
-            </div>
-
-            <!-- The actual logo image -->
-            <div class="cs-logo">
-                <!--
-                    ✏️  Replace src with your real path, e.g. "images/logo.png"
-                        The image has a black background so it blends seamlessly.
-                -->
-                <img src="Logos/logo_clean.jpeg"
-                     alt="Company logo"
-                     class="cs-logo__img" />
-            </div>
-        </div>
-
-        <!-- ── Identity block ───────────────────────────────────── -->
-        <div class="cs-identity">
-            <!--
-                ✏️  Replace with your real business name.
-                    Split into two spans if you want to accent part of the name:
-                    <span class="cs-name__accent">ACME</span> CORP
-            -->
-            <h1 class="cs-name">
-                <span class="cs-name__accent">Metalix</span>.tn
-            </h1>
-
-            <div class="cs-divider" aria-hidden="true">
-                <span class="cs-divider__line"></span>
-                <span class="cs-divider__diamond"></span>
-                <span class="cs-divider__line"></span>
-            </div>
-
-            <p class="cs-tagline">
-                Coming Soon<span class="cs-tagline__dots">
-                    <span>.</span><span>.</span><span>.</span>
-                </span>
+        <div class="home-hero__content">
+            <p class="home-eyebrow">Metalix Tunisie</p>
+            <h1 id="home-title">Solutions métalliques pour projets de construction exigeants</h1>
+            <p class="home-hero__lead">
+                Vente d'acier, conseil technique, préparation de commandes et devis rapides pour les chantiers
+                professionnels en Tunisie.
             </p>
+
+            <div class="home-hero__actions">
+                <a class="home-button home-button--primary u-focus-ring" href="/request-invoice">Demander un devis</a>
+                <a class="home-button home-button--ghost u-focus-ring" href="/contact">Parler à un conseiller</a>
+            </div>
+
+            <dl class="home-metrics" aria-label="Points forts Metalix">
+                <div>
+                    <dt>24h</dt>
+                    <dd>réponse devis</dd>
+                </div>
+                <div>
+                    <dt>3</dt>
+                    <dd>expertises métier</dd>
+                </div>
+                <div>
+                    <dt>Tunisie</dt>
+                    <dd>marché cible</dd>
+                </div>
+            </dl>
         </div>
 
-        <!-- ── Contact block ────────────────────────────────────── -->
-        <div class="cs-contact">
-            <span class="cs-contact__label">Contactez nous</span>
-            <a class="cs-contact__phone"
-               href="tel:+21699533066"
-               aria-label="Call us">
-                <!-- Phone icon inline SVG — no external dependency -->
-                <svg class="cs-contact__icon"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round"
-                     stroke-linejoin="round"
-                     aria-hidden="true">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2
-                             19.79-19.79 0 0 1-8.63-3.07
-                             19.5 19.5 0 0 1-6-6
-                             19.79 19.79 0 0 1-3.07-8.67
-                             A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72
-                             c.127.96.361 1.903.7 2.81
-                             a2 2 0 0 1-.45 2.11L8.09 9.91
-                             a16 16 0 0 0 6 6l1.27-1.27
-                             a2 2 0 0 1 2.11-.45
-                             c.907.339 1.85.573 2.81.7
-                             A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <!--  ✏️  Replace with your real phone number  -->
-                99 533 066
-            </a>
+        <aside class="home-hero__visual" aria-label="Présentation visuelle Metalix">
+            <div class="home-banner">
+                <div class="home-banner__image" role="img" aria-label="Bannière Metalix"></div>
+                <div class="home-banner__plate">
+                    <span>Acier</span>
+                    <strong>Conseil, vente et devis pour votre chantier</strong>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="home-section home-section--compact" aria-labelledby="services-title">
+        <div class="home-section__header">
+            <p class="home-eyebrow">Nos services</p>
+            <h2 id="services-title">Un accompagnement commercial clair, de la demande au chantier.</h2>
         </div>
 
-    </main>
+        <div class="service-grid">
+            <article class="service-card">
+                <span class="service-card__index">01</span>
+                <h3>Vente de produits métalliques</h3>
+                <p>Sélection de profilés, tubes, tôles et solutions acier selon les contraintes du projet.</p>
+            </article>
 
-    <!-- Footer hairline -->
-    <footer class="cs-footer" aria-hidden="true">
-        <span class="cs-footer__rule"></span>
-    </footer>
+            <article class="service-card">
+                <span class="service-card__index">02</span>
+                <h3>Conseil technique</h3>
+                <p>Orientation sur les formats, quantités et choix de matières pour optimiser coûts et délais.</p>
+            </article>
 
+            <article class="service-card">
+                <span class="service-card__index">03</span>
+                <h3>Devis et facturation</h3>
+                <p>Demandes structurées, estimation rapide et documents commerciaux préparés avec précision.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section home-process" aria-labelledby="process-title">
+        <div class="home-section__header">
+            <p class="home-eyebrow">Méthode</p>
+            <h2 id="process-title">Un parcours simple pour garder vos achats sous contrôle.</h2>
+        </div>
+
+        <div class="process-list">
+            <article>
+                <span>1</span>
+                <h3>Expression du besoin</h3>
+                <p>Vous partagez les références, dimensions, quantités ou plans disponibles.</p>
+            </article>
+            <article>
+                <span>2</span>
+                <h3>Vérification & conseil</h3>
+                <p>Metalix clarifie les contraintes techniques et propose les options adaptées.</p>
+            </article>
+            <article>
+                <span>3</span>
+                <h3>Devis commercial</h3>
+                <p>Vous recevez une proposition lisible pour valider budget, disponibilité et suite du projet.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section home-split" aria-labelledby="about-title">
+        <div>
+            <p class="home-eyebrow">À propos</p>
+            <h2 id="about-title">Une présence professionnelle pour les acteurs du bâtiment.</h2>
+        </div>
+        <div class="home-split__content">
+            <p>
+                Metalix accompagne entreprises, artisans et porteurs de projets dans leurs besoins en produits
+                métalliques pour la construction. L'objectif est de rendre l'achat plus fluide: comprendre le besoin,
+                conseiller avec justesse et préparer une offre claire.
+            </p>
+            <ul class="sector-list">
+                <li>Construction et gros oeuvre</li>
+                <li>Ateliers et fabrication métallique</li>
+                <li>Rénovation et aménagement</li>
+                <li>Projets professionnels sur mesure</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="home-cta" aria-labelledby="cta-title">
+        <p class="home-eyebrow">Prêt à chiffrer votre besoin ?</p>
+        <h2 id="cta-title">Envoyez votre demande et recevez une réponse commerciale claire.</h2>
+        <a class="home-button home-button--primary u-focus-ring" href="/request-invoice">Commencer la demande</a>
+    </section>
 </div>

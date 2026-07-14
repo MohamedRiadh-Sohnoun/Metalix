@@ -1,0 +1,122 @@
+@page "/contact"
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
+
+<PageTitle>Contact | Metalix</PageTitle>
+
+<div class="contact-page u-brand-surface">
+    <section class="contact-hero" aria-labelledby="contact-title">
+        <div class="contact-hero__grid" aria-hidden="true"></div>
+        <div class="contact-hero__glow" aria-hidden="true"></div>
+
+        <div class="contact-hero__content">
+            <p class="contact-eyebrow">Contact Metalix</p>
+            <h1 id="contact-title">Parlez-nous de votre besoin métallique.</h1>
+            <p>
+                Décrivez votre projet, vos quantités ou vos contraintes techniques. Notre équipe vous recontacte
+                par email dans un délai maximum de 24h.
+            </p>
+        </div>
+
+        <aside class="contact-promise" aria-label="Engagement de réponse">
+            <span>Réponse</span>
+            <strong>24h max</strong>
+            <p>Un retour clair par email pour qualifier votre demande et préparer la suite.</p>
+        </aside>
+    </section>
+
+    <section class="contact-main" aria-label="Formulaire et informations de contact">
+        <form class="contact-form" @onsubmit="SubmitEmail" @onsubmit:preventDefault="true">
+            <div class="contact-form__header">
+                <p class="contact-eyebrow">Votre message</p>
+                <h2>Envoyer une demande</h2>
+            </div>
+
+            <div class="contact-fields">
+                <label>
+                    <span>Nom complet</span>
+                    <input class="u-focus-ring" type="text" autocomplete="name" @bind="name" required />
+                </label>
+
+                <label>
+                    <span>Email</span>
+                    <input class="u-focus-ring" type="email" autocomplete="email" @bind="email" required />
+                </label>
+
+                <label>
+                    <span>Téléphone</span>
+                    <input class="u-focus-ring" type="tel" autocomplete="tel" @bind="phone" />
+                </label>
+
+                <label>
+                    <span>Sujet</span>
+                    <input class="u-focus-ring" type="text" @bind="subject" placeholder="Devis, conseil, disponibilité..." required />
+                </label>
+
+                <label class="contact-fields__wide">
+                    <span>Informations utiles</span>
+                    <textarea class="u-focus-ring"
+                              rows="7"
+                              @bind="message"
+                              placeholder="Dimensions, quantités, type d'acier, délais souhaités, adresse du chantier..."
+                              required></textarea>
+                </label>
+            </div>
+
+            <button class="contact-submit u-focus-ring" type="submit">Préparer l'email</button>
+            <p class="contact-form__note">
+                Le bouton ouvrira votre application email avec le message prérempli à destination de contact@metalix.tn.
+            </p>
+        </form>
+
+        <aside class="contact-details">
+            <article class="contact-card">
+                <span>Email</span>
+                <a class="u-focus-ring" href="mailto:contact@metalix.tn">contact@metalix.tn</a>
+                <p>Pour les demandes commerciales, devis, conseil et suivi.</p>
+            </article>
+
+            <article class="contact-card">
+                <span>Téléphone</span>
+                <a class="u-focus-ring" href="tel:+21699533066">+216 99 533 066</a>
+                <p>Un contact direct pour clarifier rapidement votre besoin.</p>
+            </article>
+
+            <article class="contact-card contact-card--accent">
+                <span>Engagement</span>
+                <strong>Nous vous répondons sous 24h maximum.</strong>
+                <p>Chaque demande reçoit un retour par email afin de confirmer les détails et les prochaines étapes.</p>
+            </article>
+        </aside>
+    </section>
+</div>
+
+@code {
+    private string name = string.Empty;
+    private string email = string.Empty;
+    private string phone = string.Empty;
+    private string subject = string.Empty;
+    private string message = string.Empty;
+
+    private void SubmitEmail()
+    {
+        var emailSubject = string.IsNullOrWhiteSpace(subject)
+            ? "Demande de contact Metalix"
+            : $"Demande Metalix - {subject.Trim()}";
+
+        var emailBody = string.Join(Environment.NewLine, new[]
+        {
+            $"Nom complet: {name}",
+            $"Email: {email}",
+            $"Téléphone: {phone}",
+            string.Empty,
+            "Sujet:",
+            subject,
+            string.Empty,
+            "Informations utiles:",
+            message
+        });
+
+        var mailto = $"mailto:contact@metalix.tn?subject={Uri.EscapeDataString(emailSubject)}&body={Uri.EscapeDataString(emailBody)}";
+        Navigation.NavigateTo(mailto, forceLoad: true);
+    }
+}

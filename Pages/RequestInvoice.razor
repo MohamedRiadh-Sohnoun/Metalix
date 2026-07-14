@@ -1,0 +1,127 @@
+@page "/request-invoice"
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
+
+<PageTitle>Demander un devis | Metalix</PageTitle>
+
+<div class="quote-page u-brand-surface">
+    <section class="quote-hero" aria-labelledby="quote-title">
+        <div class="quote-hero__grid" aria-hidden="true"></div>
+        <div class="quote-hero__glow" aria-hidden="true"></div>
+
+        <div class="quote-hero__content">
+            <p class="quote-eyebrow">Demande de devis</p>
+            <h1 id="quote-title">Préparez votre demande de matériaux.</h1>
+            <p>
+                Remplissez les informations essentielles: produit, quantité, dimensions et délais. Le bouton prépare
+                directement un email de demande de devis à envoyer à Metalix.
+            </p>
+        </div>
+    </section>
+
+    <section class="quote-main" aria-label="Formulaire de demande de devis">
+        <form class="quote-form" @onsubmit="SubmitQuote" @onsubmit:preventDefault="true">
+            <div class="quote-fields">
+                <label>
+                    <span>Nom complet</span>
+                    <input class="u-focus-ring" type="text" autocomplete="name" @bind="name" required />
+                </label>
+
+                <label>
+                    <span>Email</span>
+                    <input class="u-focus-ring" type="email" autocomplete="email" @bind="email" required />
+                </label>
+
+                <label>
+                    <span>Téléphone</span>
+                    <input class="u-focus-ring" type="tel" autocomplete="tel" @bind="phone" />
+                </label>
+
+                <label>
+                    <span>Produit ou matériau</span>
+                    <input class="u-focus-ring" type="text" @bind="product" placeholder="Tube, profilé, tôle, acier..." required />
+                </label>
+
+                <label>
+                    <span>Quantité</span>
+                    <input class="u-focus-ring" type="text" @bind="quantity" placeholder="Ex: 20 pièces, 500 kg..." required />
+                </label>
+
+                <label>
+                    <span>Dimensions</span>
+                    <input class="u-focus-ring" type="text" @bind="dimensions" placeholder="Longueur, épaisseur, section..." />
+                </label>
+
+                <label>
+                    <span>Délai souhaité</span>
+                    <input class="u-focus-ring" type="text" @bind="deadline" placeholder="Urgent, cette semaine, date précise..." />
+                </label>
+
+                <label>
+                    <span>Lieu / chantier</span>
+                    <input class="u-focus-ring" type="text" @bind="location" placeholder="Ville ou adresse du chantier" />
+                </label>
+
+                <label class="quote-fields__wide">
+                    <span>Détails complémentaires</span>
+                    <textarea class="u-focus-ring"
+                              rows="7"
+                              @bind="details"
+                              placeholder="Ajoutez les références, contraintes techniques, notes de livraison ou toute autre information utile."></textarea>
+                </label>
+            </div>
+
+            <button class="quote-submit u-focus-ring" type="submit">Créer l'email de devis</button>
+            <p class="quote-note">Votre application email s'ouvrira avec la demande préremplie vers contact@metalix.tn.</p>
+        </form>
+
+        <aside class="quote-aside">
+            <span>Conseil</span>
+            <strong>Plus votre demande est précise, plus le devis sera rapide.</strong>
+            <p>Indiquez les dimensions, quantités, matière souhaitée et délai de livraison si vous les connaissez.</p>
+        </aside>
+    </section>
+</div>
+
+@code {
+    private string name = string.Empty;
+    private string email = string.Empty;
+    private string phone = string.Empty;
+    private string product = string.Empty;
+    private string quantity = string.Empty;
+    private string dimensions = string.Empty;
+    private string deadline = string.Empty;
+    private string location = string.Empty;
+    private string details = string.Empty;
+
+    private void SubmitQuote()
+    {
+        var emailSubject = $"Demande de devis Metalix - {product.Trim()}";
+        var emailBody = string.Join(Environment.NewLine, new[]
+        {
+            $"Nom complet: {name}",
+            $"Email: {email}",
+            $"Téléphone: {phone}",
+            string.Empty,
+            "Produit ou matériau:",
+            product,
+            string.Empty,
+            "Quantité:",
+            quantity,
+            string.Empty,
+            "Dimensions:",
+            dimensions,
+            string.Empty,
+            "Délai souhaité:",
+            deadline,
+            string.Empty,
+            "Lieu / chantier:",
+            location,
+            string.Empty,
+            "Détails complémentaires:",
+            details
+        });
+
+        var mailto = $"mailto:contact@metalix.tn?subject={Uri.EscapeDataString(emailSubject)}&body={Uri.EscapeDataString(emailBody)}";
+        Navigation.NavigateTo(mailto, forceLoad: true);
+    }
+}

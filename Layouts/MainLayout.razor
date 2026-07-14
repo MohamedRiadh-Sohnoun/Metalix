@@ -1,5 +1,60 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
-<div class="page">
-    @Body
+<div class="site-shell">
+    <header class="site-header">
+        <a class="site-brand u-focus-ring" href="/" aria-label="Metalix - Accueil">
+            <span class="site-brand__mark u-hexagon">
+                <img src="Logos/logo_clean.jpeg" alt="" />
+            </span>
+            <span class="site-brand__text">
+                <span>Metalix</span>
+                <small>Construction métallique</small>
+            </span>
+        </a>
+
+        <button class="site-menu-toggle u-focus-ring"
+                type="button"
+                aria-label="@MenuToggleLabel"
+                aria-controls="site-navigation"
+                aria-expanded="@menuOpen"
+                @onclick="ToggleMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
+
+        <nav id="site-navigation"
+             class="site-nav @(menuOpen ? "site-nav--open" : null)"
+             aria-label="Navigation principale">
+            <NavLink class="site-nav__link u-focus-ring" href="/" Match="NavLinkMatch.All" @onclick="CloseMenu">Accueil</NavLink>
+            <NavLink class="site-nav__link u-focus-ring" href="/services" @onclick="CloseMenu">Nos services</NavLink>
+            <NavLink class="site-nav__link u-focus-ring" href="/contact" @onclick="CloseMenu">Contact</NavLink>
+            <NavLink class="site-nav__cta u-focus-ring" href="/request-invoice" @onclick="CloseMenu">Demander un devis</NavLink>
+        </nav>
+    </header>
+
+    <main class="site-main">
+        @Body
+    </main>
+
+    <footer class="site-footer">
+        <span>Metalix.tn</span>
+        <span>Acier, conseil et solutions pour vos chantiers en Tunisie</span>
+    </footer>
 </div>
+
+@code {
+    private bool menuOpen;
+
+    private string MenuToggleLabel => menuOpen ? "Fermer le menu" : "Ouvrir le menu";
+
+    private void ToggleMenu()
+    {
+        menuOpen = !menuOpen;
+    }
+
+    private void CloseMenu()
+    {
+        menuOpen = false;
+    }
+}

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --color-crimson: #C8000A;
+    --color-crimson-glow: #FF1A26;
+    --color-steel: #B2B6BE;
+    --color-steel-muted: rgba(178, 182, 190, 0.35);
+    --color-steel-dim: #1E1E1E;
+    --color-steel-track: #2E2E2E;
+    --color-void: #0A0A0A;
+    --color-white: #FFFFFF;
+    --color-error: #B32121;
+    --color-warning: #FFF3CD;
+
+    --font-display: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+
+    --line-thin: 1px;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --z-loader: 9999;
+    --z-error: 1000;
+}
