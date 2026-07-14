@@ -6,9 +6,9 @@
     <title>Metalix</title>
     <!--<base href="https://MohamedRiadh-Sohnoun.github.io/Metalix/" />-->
     <base href="/" />
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="Metalix.styles.css" rel="stylesheet">
-    <link href="manifest.json" rel="manifest" />
+    <link href="/css/app.css?v=20260715" rel="stylesheet" />
+    <link href="/Metalix.styles.css?v=20260715" rel="stylesheet" />
+    <link href="/manifest.json" rel="manifest" />
 
 </head>
 
@@ -62,7 +62,7 @@
                       ✏️  Replace the src below with your actual logo path, e.g.
                           src="images/logo.png"   or   src="_content/MyApp/logo.png"
                     -->
-                    <img src="Logos/logo_clean.jpeg" alt="Company logo" />
+                    <img src="/Logos/logo_clean.jpeg" alt="Company logo" />
                 </div>
 
             </div><!-- /.loader-ring-wrap -->
@@ -79,8 +79,26 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="/_framework/blazor.webassembly.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations()
+                .then(function (registrations) {
+                    registrations.forEach(function (registration) {
+                        registration.unregister();
+                    });
+                });
+        }
+
+        if ('caches' in window) {
+            caches.keys()
+                .then(function (keys) {
+                    keys
+                        .filter(function (key) { return key.indexOf('offline-cache-') === 0; })
+                        .forEach(function (key) { caches.delete(key); });
+                });
+        }
+    </script>
 
     <!--
       ③ Optional: smooth fade-out once Blazor finishes bootstrapping.
